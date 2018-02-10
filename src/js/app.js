@@ -8,6 +8,8 @@ var OrbitControls = require('three-orbit-controls')(THREE);
 
 var camera, controls, scene, renderer, mesh;
 
+let size = 20;
+
 function init() {
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
@@ -33,7 +35,19 @@ function init() {
 
   controls = new OrbitControls(camera, renderer.domElement);
 
+  let material = new THREE.LineBasicMaterial({color: 0xffffff});
 
+  let geometry = new THREE.Geometry();
+
+  for (var i = 0; i < size; i++) {
+    geometry.vertices.push(
+      new THREE.Vector3(i*10,0,0)
+    );
+  }
+
+  let mesh = new THREE.Line(geometry, material);
+
+  scene.add(mesh);
   // do something
 
   animate();
