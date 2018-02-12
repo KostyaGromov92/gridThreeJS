@@ -3,11 +3,11 @@ var OrbitControls = require('three-orbit-controls')(THREE);
 
 import Perlin from './lib/perlin.js';
 
-let size = 120;
+let size = 300;
 
 
 
-var camera, controls, scene, renderer, mesh, meshX,meshY,groupX,groupY,geometry;
+var camera, controls, scene, renderer, mesh, meshX,meshY,groupX,groupY,geometry,material;
 
 function init() {
   scene = new THREE.Scene();
@@ -30,9 +30,9 @@ function init() {
     1,
     3000
   );
-  camera.position.z = 200;
+  camera.position.set(0, -144, 30);
   scene.position.x = -100;
-  scene.position.y = -100;
+  scene.position.y = -50;
 
 
   controls = new OrbitControls(camera, renderer.domElement);
@@ -42,7 +42,7 @@ function init() {
 
   
 
-  var material = new THREE.ShaderMaterial({
+  material = new THREE.ShaderMaterial({
     	// wireframe: true,
     extensions: {
       derivatives: '#extension GL_OES_standard_derivatives : enable',
@@ -72,19 +72,12 @@ function init() {
 }
 
 
-function UpdatePlane(time) {
-  for (var i = 0; i < geometry.vertices.length; i++) {
-    let vec = geometry.vertices[i];
-    vec.z = 100 * Perlin(vec.x/100,vec.y/100,time/1000);
-  }
-  geometry.verticesNeedUpdate = true;
-}
 
 
 let time = 0;
 function animate() {
   time++;
-  UpdatePlane(time);
+  material.uniforms.time.value = time;
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
