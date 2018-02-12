@@ -14,9 +14,9 @@
     <!-- BEGIN content -->
     <div class="out">
       <div id="container"></div>
-      <script id="vertShader" type="shader"> varying vec2 vUv; varying vec3 vecPos; varying vec3 v_position; } void main() { vUv = uv; v_position = position.xyz; v_position.z = 100.*cnoise(vec3(v_position.x/300.,v_position.y/300.,time/300.)); vecPos = (modelViewMatrix * vec4(v_position, 1.0)).xyz;
-        gl_Position = projectionMatrix * vec4(vecPos, 1.0); } </script>
-      <script id="fragShader" type="shader"> varying vec3 v_position; varying vec2 vUv; void main(void) { gl_FragColor = vec4(1.0, 0., 0., 1.0); } </script>
+      <script id="vertShader" type="shader"> varying vec2 vUv; varying vec3 vecPos; varying vec3 v_position; void main() { vUv = uv; vecPos = (modelViewMatrix * vec4(position, 1.0)).xyz; v_position = position.xyz; gl_Position = projectionMatrix * vec4(vecPos, 1.0); } </script>
+      <script id="fragShader"
+        type="shader"> varying vec3 v_position; varying vec2 vUv; void main(void) { vec2 st = v_position.xy; vec2 grid = abs(fract(st-0.5) - 0.5)/fwidth(st); float color = min(grid.x, grid.y); gl_FragColor = vec4(1.,1.,1.,1. - color); } </script>
     </div>
     <!-- END content -->
     <!-- BEGIN scripts -->
